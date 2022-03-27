@@ -21,21 +21,6 @@ struct Books
     char page_number[10];
 }Book[N];
 
-// void gae()
-// {
-//     gets(Book[g].name);
-//     gets(Book[g].surname);
-//     gets(Book[g].book_name);
-//     gets(Book[g].page_number);
-//     g++;
-// }
-// void gae_2()
-// {
-//     int i;
-//     for (i=0;i<g;i++){
-//         printf("%s %s %s %s", Book[i].name, Book[i].surname, Book[i].book_name, Book[i].page_number);        
-//     }
-// }
 
 int main(){
     menu();
@@ -65,15 +50,13 @@ void menu(){
 	else if(a=='q'){
 		system("exit");
 	}
-//	else if(a=='4'){
-//		sort();
-//	}
+	else if(a=='4'){
+		sort();
+	}
     else{
         printf("Enter a Valid Number(1-3)!\n");
         menu();
-    }
-        
-       
+    } 
 }
 
 void show_books(){
@@ -157,5 +140,34 @@ void get_info(){
     fclose(file);
 }
 void sort(){
-
+	int flag=0;
+	char temp[20];
+	int i;
+	
+	get_info();
+	for(i=0; i<g-1;i++){
+        printf("%d-%s %s %s %s\n", i+1, Book[i].name, Book[i].surname, Book[i].book_name, Book[i].page_number);
+    }
+	
+	do{
+		for(i=0;i<g-1;i++){
+			if(Book[i].surname<Book[i+1].surname){
+				strcpy(temp, Book[i].surname);
+				strcpy(Book[i].surname, Book[i+1].surname);
+				strcpy(Book[i+1].surname, temp);
+				flag=1;
+			}
+		}
+	}while(flag!=1);
+	printf("Finished!\n");
+	
+	file = fopen("Library.txt","w");
+	for(i=0; i<g;i++){
+        fprintf(file, "%s", Book[i].name);
+    	fprintf(file, "%s", Book[i].surname);
+    	fprintf(file, "%s", Book[i].book_name);
+    	fprintf(file, "%s", Book[i].page_number);
+    }
+    fclose(file);
+    menu();
 }
